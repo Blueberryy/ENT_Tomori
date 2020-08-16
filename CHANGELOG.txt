@@ -1,0 +1,48 @@
+-- 2020. 08. 16.
+
+ > Major Fixes
+ > Added Stealth disconnected and connected message
+ > Removed every private security from Tomori
+ > Public release
+ 
+-- 2020. 06. 08
+
+ > Fixed Profile Check error
+ > Fixed Tag miss check (Thank you Yvano)
+
+-- 2020. 05. 25
+
+ > Changed SteamWorks to newest version
+ > Added "Cookie Purge" Module (Create Backup before enable)
+ > Added "ConVar Enforcer" Module
+ > Added "Watchadmin" Module with 3 modes
+ > Added "Tags" Module
+ > Added "Anti-Slam" Module
+ > Added built in custom clan-tag, name-tag, name-color, chat-color, tag-color by flags
+ > Added built in custom clan-tag, name-tag, name-color, chat-color, tag-color by steamid
+ > Added rainbow color to built in color offset
+ > Added random color to built in color offset
+ > Added Website block to name
+ > Added IP block to name
+ > Added BadWord block to name
+ > Fixed Name Change Length
+ > Fixed advert disable option
+ > Fixed player name shows wrong name
+ > Fixed chat triggers on no text
+ > Fixed chat triggers on space as text
+ > Changed Regex to website (3 times bigger, but 100% accurate)
+ > Changed ConVar "ApiKey" to protected ConVar
+
+-- 2020. 05. 20
+
+ > Added cvar to banhammer flag
+ > Added cvar to stealth flag
+ > Added cvar to player flag
+ > Added cvar to profil ignore flag
+ > Added advertisement part to AI module
+ > Added autochat part to AI module
+ > Added extra security layer
+ > Fixed advertisement trigger on "..."
+ > Fixed filters with letters like áéőóúűí
+ > Fixed chat filter triggers when player gagged
+ > Changed website regex

@@ -68,7 +68,7 @@ public void AI_OnMapStart()
 
 public void LoadAutoChatWords()
 {
-	if (gH_Cvar_Tomori_AI_Advert_Enabled.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue && AllowRun) 
+	if (gH_Cvar_Tomori_AI_Advert_Enabled.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue) 
 	{
 		Handle DB = CreateKeyValues("Chat");
 		char ChatMessege[128];
@@ -93,7 +93,7 @@ public void LoadAutoChatWords()
 
 public Action AutoChat(Handle timer)
 {
-	if (gH_Cvar_Tomori_AI_Advert_Enabled.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_AI_Advert_Enabled.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue)
 	{
 		int RandomInt = GetRandomInt(2, 3);
 		int client = GetRandomPlayer(RandomInt);
@@ -151,7 +151,7 @@ stock int GetRandomPlayer(int team)
 
 public void LoadWord()
 {
-	if (gH_Cvar_Tomori_AI_AutoReply.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_AI_AutoReply.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue)
 	{
 		Handle DB = CreateKeyValues("Replies");
 		char equal[32], answer[128], condition[32], Stypetime[32], contains[32], action[256];
@@ -281,7 +281,7 @@ public void LoadWord()
 
 public Action Command_Say(int client, int args)
 {
-	if (gH_Cvar_Tomori_AI_AutoReply.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue && AllowRun && !BaseComm_IsClientGagged(client))
+	if (gH_Cvar_Tomori_AI_AutoReply.BoolValue && gH_Cvar_Tomori_AI_Enabled.BoolValue && !BaseComm_IsClientGagged(client))
 	{
 		char arg1[32], Sclient[32];
 		GetCmdArg(1, arg1, sizeof(arg1));

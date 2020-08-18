@@ -45,12 +45,12 @@ public void Antislam_OnPluginStart()
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 	
-	if (gH_Cvar_Tomori_Antislam_Enabled.BoolValue && AllowRun) CreateTimer(1.0, Timer_CheckAudio, _, TIMER_REPEAT);
+	if (gH_Cvar_Tomori_Antislam_Enabled.BoolValue) CreateTimer(1.0, Timer_CheckAudio, _, TIMER_REPEAT);
 }
 
 public Action Timer_CheckAudio(Handle timer, any data)
 {
-	if (gH_Cvar_Tomori_Antislam_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Antislam_Enabled.BoolValue)
 	{
 		for(int i = 1; i <= MaxClients; i++)
 		{
@@ -64,7 +64,7 @@ public Action Timer_CheckAudio(Handle timer, any data)
 
 public void CB_CheckAudio(QueryCookie cookie, int client, ConVarQueryResult result, const char[] cvarName, const char[] cvarValue)
 {
-    if ((result == ConVarQuery_Okay && StringToInt(cvarValue) == 1) && gH_Cvar_Tomori_Antislam_Enabled.BoolValue && AllowRun)
+    if ((result == ConVarQuery_Okay && StringToInt(cvarValue) == 1) && gH_Cvar_Tomori_Antislam_Enabled.BoolValue)
 	{
 		char immune_flag[32];
 		gH_Cvar_Tomori_Antislam_Flag.GetString(immune_flag, sizeof(immune_flag));

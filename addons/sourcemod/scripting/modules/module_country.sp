@@ -47,8 +47,8 @@ public void CountryFilter_OnPluginStart()
 
 public Action JoinTeamCmd(int client, char[] command, int argc)
 {
-	if(!IsValidClient(client) || argc < 1 || !gH_Cvar_Tomori_CountryFilter_Enabled.BoolValue || !AllowRun)
-		return Plugin_Handled;
+	if(!IsValidClient(client) || argc < 1 || !gH_Cvar_Tomori_CountryFilter_Enabled.BoolValue)
+		return Plugin_Continue;
 		
 	char arg[4];
 	GetCmdArg(1, arg, sizeof(arg));
@@ -75,7 +75,7 @@ public Action JoinTeamCmd(int client, char[] command, int argc)
 
 public bool OnClientConnect(int client, char[] rejectmsg, int maxlen)
 {
-	if (gH_Cvar_Tomori_CountryFilter_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_CountryFilter_Enabled.BoolValue)
 	{
 		char ip[16], code2[3];
 		GetClientIP(client, ip, sizeof(ip));
@@ -97,7 +97,7 @@ public bool OnClientConnect(int client, char[] rejectmsg, int maxlen)
 
 public bool RejectJoin(char[] code2)
 {
-	if (StrEqual("", code2) || !AllowRun)
+	if (StrEqual("", code2))
 		return false;
 		
 	char raw_countries[255], countries[100][3];

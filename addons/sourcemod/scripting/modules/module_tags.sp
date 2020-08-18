@@ -50,7 +50,7 @@ public void Tags_OnPluginStart()
 
 	gH_Cvar_Tomori_Tags_Enabled = AutoExecConfig_CreateConVar("tomori_tags_enabled", "1", "Enable or disable Tags Module (0 - Disable, 1 - Enabled)", 0, true, 0.0, true, 1.0);
 	
-	if (!gH_Cvar_Tomori_Enabled.BoolValue || !AllowRun)
+	if (!gH_Cvar_Tomori_Enabled.BoolValue)
 		gH_Cvar_Tomori_Tags_Enabled.SetInt(0, true, false);
 
 	AutoExecConfig_ExecuteFile();
@@ -59,12 +59,12 @@ public void Tags_OnPluginStart()
 
 public void Tags_OnClientDisconnect(int client)
 {
-	if (gH_Cvar_Tomori_Tags_Enabled.BoolValue && AllowRun) ResetClientID(client);
+	if (gH_Cvar_Tomori_Tags_Enabled.BoolValue) ResetClientID(client);
 }
 
 public void Tags_OnClientPostAdminCheck(int client)
 {
-	if (gH_Cvar_Tomori_Tags_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Tags_Enabled.BoolValue)
 	{
 		ResetClientID(client);
 		
@@ -174,7 +174,7 @@ stock void GetUserTagByFlag(int client)
 
 public Action CP_OnChatMessage(int& client, ArrayList recipients, char[] flagstring, char[] name, char[] message, bool& processcolors, bool& removecolors)
 {
-	if (gH_Cvar_Tomori_Tags_Enabled.BoolValue && AllowRun && gShadow_Tomori_Client_Custom[client])
+	if (gH_Cvar_Tomori_Tags_Enabled.BoolValue && gShadow_Tomori_Client_Custom[client])
 	{
 		char sname[MAX_NAME_LENGTH];
 		GetClientName(client, sname, MAX_NAME_LENGTH);

@@ -33,7 +33,7 @@ public void Enforcer_OnPluginStart()
 	if (!gH_Cvar_Tomori_Enabled.BoolValue)
 		gH_Cvar_Tomori_Enforcer_Enabled.SetInt(0, true, false);
 
-	if (gH_Cvar_Tomori_Enforcer_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Enforcer_Enabled.BoolValue)
 		EnforceAllCvars(0);
 
 	AutoExecConfig_ExecuteFile();
@@ -42,7 +42,7 @@ public void Enforcer_OnPluginStart()
 
 public void Enforcer_OnMapStart()
 {
-	if (gH_Cvar_Tomori_Enforcer_Enabled.BoolValue && AllowRun) EnforceAllCvars(0);
+	if (gH_Cvar_Tomori_Enforcer_Enabled.BoolValue) EnforceAllCvars(0);
 }
 
 public void EnforceAllCvars(int client)
@@ -97,7 +97,7 @@ public void EnforceAllCvars(int client)
 
 public void OnConVarChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
-	if(!gH_Cvar_Tomori_Enforcer_Enabled.BoolValue || !AllowRun)
+	if(!gH_Cvar_Tomori_Enforcer_Enabled.BoolValue)
 		return;
 	
 	char sCvarName[256], sCvarListCvar[256], sValue[256];

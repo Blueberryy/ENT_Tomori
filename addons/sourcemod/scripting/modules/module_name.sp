@@ -75,7 +75,7 @@ public void Name_OnPluginStart()
 public Action NameBlock_AnnounceJoin(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if(gH_Cvar_Tomori_Name_Enabled.BoolValue && AllowRun)
+	if(gH_Cvar_Tomori_Name_Enabled.BoolValue)
 	{
 		if(!event.GetBool("disconnect") && (event.GetInt("oldteam") == CS_TEAM_NONE))
 		{
@@ -89,7 +89,7 @@ public Action NameBlock_AnnounceJoin(Event event, const char[] name, bool dontBr
 
 public Action BlockRenameText(UserMsg msg_id, BfRead bf, const int[] players, int playersNum, bool reliable, bool init)
 {
-	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Name_Enabled.BoolValue)
 	{
 		if(!reliable)
 		{
@@ -120,12 +120,12 @@ public Action BlockRenameText(UserMsg msg_id, BfRead bf, const int[] players, in
 
 public void Name_OnMapEnd()
 {
-	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && AllowRun) RunNameCommands();
+	if (gH_Cvar_Tomori_Name_Enabled.BoolValue) RunNameCommands();
 }
 
 public void Name_OnMapStart()
 {
-	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && AllowRun) RunNameCommands();
+	if (gH_Cvar_Tomori_Name_Enabled.BoolValue) RunNameCommands();
 }
 
 stock void RunNameCommands()
@@ -200,7 +200,7 @@ stock bool CheckNameAll(char[] name)
 public Action NameBlock(Handle event, char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if (IsValidClient(client) && AllowRun)
+	if (IsValidClient(client))
 	{
 		if (gH_Cvar_Tomori_Name_Enabled.BoolValue && !gShadow_Client_ChangedByTomori[client])
 		{
@@ -365,7 +365,7 @@ public Action NameBlock(Handle event, char[] name, bool dontBroadcast)
 
 public void Name_OnClientDisconnect(int client)
 {
-	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && IsValidClient(client) && AllowRun)
+	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && IsValidClient(client))
 	{
 		gShadow_Client_ChangedTime[client] = 0;
 		gShadow_Client_ChangedByTomori[client] = false;
@@ -375,7 +375,7 @@ public void Name_OnClientDisconnect(int client)
 
 public void Profile_OnClientPutInServer(int client)
 {
-	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && gH_Cvar_Tomori_Name_Badname_AutoChange.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Name_Enabled.BoolValue && gH_Cvar_Tomori_Name_Badname_AutoChange.BoolValue)
 	{
 		if (IsValidClient(client))
 		{

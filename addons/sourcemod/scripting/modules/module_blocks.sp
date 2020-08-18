@@ -87,7 +87,7 @@ public Action BlockRadio(UserMsg msg_id, Protobuf msg, const int[] players, int 
 
 public Action BlockText(UserMsg msg_id, BfRead bf, const int[] players, int playersNum, bool reliable, bool init)
 {
-	if (gH_Cvar_Tomori_Blocks_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Blocks_Enabled.BoolValue)
 	{
 		if(!reliable)
 		{
@@ -123,7 +123,7 @@ public Action BlockMsg(UserMsg msg_id, BfRead msg, const int[] players, int play
 		char buffer[64];
 		PbReadString(msg, "params", buffer, sizeof(buffer), 0);
 		
-		if (gH_Cvar_Tomori_Blocks_Cash.BoolValue && AllowRun)
+		if (gH_Cvar_Tomori_Blocks_Cash.BoolValue)
 		{
 			if (StrEqual(buffer, "#Player_Cash_Award_Killed_Enemy"))
 				return Plugin_Handled;
@@ -223,7 +223,7 @@ public Action BlockMsg(UserMsg msg_id, BfRead msg, const int[] players, int play
 				return Plugin_Handled;
 		}
 		
-		if (gH_Cvar_Tomori_Blocks_SavedPlayer.BoolValue && AllowRun)
+		if (gH_Cvar_Tomori_Blocks_SavedPlayer.BoolValue)
 		{
 			if (StrContains(buffer, "#Chat_SavePlayer_", false) != -1)
 				return Plugin_Handled;
@@ -236,7 +236,7 @@ public Action BlockMsg(UserMsg msg_id, BfRead msg, const int[] players, int play
 public Action Event_PlayerConnect(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if(gH_Cvar_Tomori_Blocks_Enabled.BoolValue && IsValidClient(client) && AllowRun)
+	if(gH_Cvar_Tomori_Blocks_Enabled.BoolValue && IsValidClient(client))
 	{
 		if (gH_Cvar_Tomori_Blocks_Connect.IntValue != 0)
 			event.BroadcastDisabled = true;
@@ -247,7 +247,7 @@ public Action Event_PlayerConnect(Event event, const char[] name, bool dontBroad
 
 public void OnClientAuthorized(int client, const char[] auth)
 {
-	if((gH_Cvar_Tomori_Blocks_Enabled.BoolValue) && IsValidClient(client) && (gH_Cvar_Tomori_Blocks_Connect.IntValue == 1) && AllowRun)
+	if((gH_Cvar_Tomori_Blocks_Enabled.BoolValue) && IsValidClient(client) && (gH_Cvar_Tomori_Blocks_Connect.IntValue == 1))
 	{
 		char Name[64], Country[64], IP[64];
 		GetClientName(client, Name, sizeof(Name));
@@ -267,7 +267,7 @@ public void OnClientAuthorized(int client, const char[] auth)
 public Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if(gH_Cvar_Tomori_Blocks_Enabled.BoolValue && IsValidClient(client) && AllowRun)
+	if(gH_Cvar_Tomori_Blocks_Enabled.BoolValue && IsValidClient(client))
 	{
 		if (gH_Cvar_Tomori_Blocks_Disconnect.IntValue == 2)
 			event.BroadcastDisabled = true;
@@ -292,7 +292,7 @@ public Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBr
 public Action Event_PlayerTeam(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if(IsValidClient(client) && AllowRun)
+	if(IsValidClient(client))
 	{
 		if(!event.GetBool("disconnect"))
 		{

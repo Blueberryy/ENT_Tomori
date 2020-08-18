@@ -43,7 +43,7 @@ public void Gather_OnPluginStart()
 	gH_Cvar_Tomori_Gathering_Enabled = AutoExecConfig_CreateConVar("tomori_gathering_enabled", "1", "Enable or disable gathering module in tomori:", 0, true, 0.0, true, 1.0);
 	gH_Cvar_Tomori_Gathering_Flag = AutoExecConfig_CreateConVar("tomori_gathering_flag", "b", "Flag to use sm_player", 0);
 
-	if (gH_Cvar_Tomori_Gathering_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Gathering_Enabled.BoolValue)
 	{
 		char gat_flag[32];
 		gH_Cvar_Tomori_Gathering_Flag.GetString(gat_flag, sizeof(gat_flag));
@@ -62,7 +62,7 @@ public void Gather_OnPluginStart()
 
 public Action Command_Player(int client, int args)
 {
-	if (gH_Cvar_Tomori_Gathering_Enabled.BoolValue && IsValidClient(client) && AllowRun)
+	if (gH_Cvar_Tomori_Gathering_Enabled.BoolValue && IsValidClient(client))
 	{
 		if (args < 1)
 		{
@@ -92,7 +92,7 @@ public Action Command_Player(int client, int args)
 
 stock Action ShowPlayerList(int client)
 {
-	if (IsValidClient(client) && AllowRun)
+	if (IsValidClient(client))
 	{
 		Menu menu = CreateMenu(MenuHandler_Player);
 		
@@ -146,7 +146,7 @@ public int MenuHandler_Player(Menu menu, MenuAction action, int client, int item
 
 stock Action ShowData(int client, int target, int itemNum)
 {
-	if (IsValidClient(client) && AllowRun)
+	if (IsValidClient(client))
 	{
 		char databuffer[128];
 		Format(databuffer, sizeof(databuffer), "-=| %N |=-\n \n", target);
@@ -186,7 +186,7 @@ public int MenuHandler_DataChoice(Menu menu, MenuAction action, int client, int 
 
 stock Action AdminControl(int client, int itemNum)
 {
-	if (IsValidClient(client) && AllowRun)
+	if (IsValidClient(client))
 	{
 		char databuffer[128];
 		Format(databuffer, sizeof(databuffer), "-=| %t |=-\n ", "Tomori AdminControl");
@@ -271,7 +271,7 @@ public int MenuHandler_AdminChoice(Menu menu, MenuAction action, int client, int
 
 stock Action CtbanControl(int client, int itemNum)
 {
-	if (IsValidClient(client) && AllowRun)
+	if (IsValidClient(client))
 	{
 		char databuffer[128];
 		Format(databuffer, sizeof(databuffer), "-=| %t |=-\n ", "Tomori CTBan Commands");

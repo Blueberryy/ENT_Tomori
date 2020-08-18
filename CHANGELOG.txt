@@ -1,3 +1,11 @@
+-- 2020. 08. 18.
+
+ > Team Change Bug Fixed
+ > Added Translation fix
+ > Added Turkish Translations - ByDexter
+ > Added chat-processor to included files
+ > Fully removed ip-block security
+ 
 -- 2020. 08. 16.
 
  > Major Fixes

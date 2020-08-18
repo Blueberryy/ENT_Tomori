@@ -119,7 +119,7 @@
 	}
 	"Tomori Profile KickInvisible"
 	{
-		"en"		"You can't join to the server, because your CS:GO playtime is not public"
+		"en"		"You can't join to the server, because your CS:GO playtime is not public or the Server Owner didn't set the API Key."
 	}
 	"Tomori Profile KickNotEnough"
 	{

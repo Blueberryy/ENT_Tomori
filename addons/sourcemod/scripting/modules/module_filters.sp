@@ -51,7 +51,7 @@ public void Filters_OnPluginStart()
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
 	
-	if (gH_Cvar_Tomori_Filter_Enabled.BoolValue && AllowRun) Filters_Loaded = true;
+	if (gH_Cvar_Tomori_Filter_Enabled.BoolValue) Filters_Loaded = true;
 	else Filters_Loaded = false;
 	
 	CompileAllRegex();
@@ -69,7 +69,7 @@ stock void CompileAllRegex()
 
 public Action OnMessageSent(int client, const char[] command, int args)
 {
-	if (gH_Cvar_Tomori_Filter_Enabled.BoolValue && IsValidClient(client) && AllowRun && !BaseComm_IsClientGagged(client))
+	if (gH_Cvar_Tomori_Filter_Enabled.BoolValue && IsValidClient(client) && !BaseComm_IsClientGagged(client))
 	{
 		char buffer[1024], arg[128];
 		GetCmdArg(1, arg, sizeof(arg));
@@ -115,7 +115,7 @@ public Action OnMessageSent(int client, const char[] command, int args)
 
 public void Filters_OnMapStart()
 {
-	if (gH_Cvar_Tomori_Filter_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Filter_Enabled.BoolValue)
 	{
 		ReadWordList();
 		for (int idx = 1; idx <= MaxClients; idx++)
@@ -140,7 +140,7 @@ stock void ClearWordList()
 
 public bool ContainsBad(char[] source, int client)
 {
-	if (ReadCompleted && AllowRun)
+	if (ReadCompleted)
 	{
 		char Message[1024];
 		

@@ -57,7 +57,7 @@ public void Purge_OnPluginStart()
 
 public void Purge_OnMapStart()
 {
-	if (gH_Cvar_Tomori_Purge_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Purge_Enabled.BoolValue)
 	{
 		char query[512];
 		Format(query, sizeof(query), "DELETE FROM sm_cookie_cache WHERE timestamp <= %i; VACUUM", GetTime() - (gH_Cvar_Tomori_Purge_Days.IntValue * 86400));
@@ -69,7 +69,7 @@ public void Purge_OnClientCookiesCached(int client)
 {
 	char client_steamid[MAX_NAME_LENGTH];
 
-	if (GetClientAuthId(client, AuthId_Steam2, client_steamid, sizeof(client_steamid)) && gH_Cvar_Tomori_Purge_Enabled.BoolValue && AllowRun)
+	if (GetClientAuthId(client, AuthId_Steam2, client_steamid, sizeof(client_steamid)) && gH_Cvar_Tomori_Purge_Enabled.BoolValue)
 	{
 		char query[512], safe_steamid[(MAX_NAME_LENGTH*2)+1];
 		SQL_EscapeString(DB_Purge, client_steamid, safe_steamid, sizeof(safe_steamid));
@@ -86,7 +86,7 @@ public void CP_CheckErrors(Handle owner, Handle handle, char[] error, any data)
 
 public void CP_PurgeCallback(Handle owner, Handle handle, char[] error, any data)
 {
-	if (SQL_GetAffectedRows(owner) && gH_Cvar_Tomori_Purge_Enabled.BoolValue && AllowRun)
+	if (SQL_GetAffectedRows(owner) && gH_Cvar_Tomori_Purge_Enabled.BoolValue)
 	{
 		if (gH_Cvar_Tomori_Purge_Logging.BoolValue) LogToFileEx(gShadow_Tomori_Purge_LogFile, "Clientprefs Purged: Cookies of %i players was removed due of inactivity.", SQL_GetAffectedRows(owner));
 	}

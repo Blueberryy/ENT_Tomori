@@ -69,7 +69,7 @@ public void Watchadmin_OnPluginStart()
 
 public void Watchadmin_OnMapStart()
 {
-	if (gH_Cvar_Tomori_Watchadmin_Enabled.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_Watchadmin_Enabled.BoolValue)
 	{
 		ReadCMDList();
 	}

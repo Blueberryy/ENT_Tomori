@@ -118,7 +118,7 @@ public void ExtraCMD_OnClientDisconnect(int client)
 
 public Action OnTakeDamage(int target, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue)
 	{
 		if (gShadow_AdminHas_Banhammer[attacker])
 		{
@@ -163,7 +163,7 @@ public Action OnTakeDamage(int target, int &attacker, int &inflictor, float &dam
 
 public Action Command_AbortBanhammer(int client, int args)
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue)
 	{
 		if (gShadow_AdminHas_Banhammer[client])
 		{
@@ -197,7 +197,7 @@ public Action Command_AbortBanhammer(int client, int args)
 
 public Action Command_Banhammer(int client, int args)
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue)
 	{
 		if (IsValidClient(client, false, false))
 		{
@@ -242,7 +242,7 @@ public Action Command_Banhammer(int client, int args)
 
 public Action OnPlayerRunCmd(int client, int &buttons)
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue)
 	{
 		if (IsValidClient(client, false, false))
 		{
@@ -260,7 +260,7 @@ public Action OnPlayerRunCmd(int client, int &buttons)
 
 public Action BanhammerBlock(int client, int weapon)  
 {
-	if (gShadow_AdminHas_Banhammer[client] && AllowRun)
+	if (gShadow_AdminHas_Banhammer[client])
 	{
 		return Plugin_Handled;
 	}
@@ -269,7 +269,7 @@ public Action BanhammerBlock(int client, int weapon)
 
 public Action Command_StealthMode(int client, int args)
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Stealth.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Stealth.BoolValue)
 	{
 		if (IsValidClient(client))
 		{
@@ -296,7 +296,7 @@ public Action Command_StealthMode(int client, int args)
 
 public void Hook_PMThink(int entity)
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Stealth.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Stealth.BoolValue)
 	{
 		for(int i=1;i<=MaxClients;i++)
 		{
@@ -316,7 +316,7 @@ public void Hook_PMThink(int entity)
 
 public void OnGameFrame()
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Stealth.BoolValue && AllowRun)
+	if (gH_Cvar_Tomori_ExtraCMD_Stealth.BoolValue)
 	{
 		for(int i=1;i<=MaxClients;i++)
 		{

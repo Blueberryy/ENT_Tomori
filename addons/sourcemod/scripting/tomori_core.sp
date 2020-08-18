@@ -46,7 +46,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define TOMORI_VERSION						"2.1b"
+#define TOMORI_VERSION						"2.2b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1
@@ -69,7 +69,6 @@ char ServerIP[64];
 char gShadow_Tomori_ChatPrefix[64] = "\x01[\x07Tomori\x01]\x0B";
 char gShadow_Tomori_LogFile[PLATFORM_MAX_PATH];
 
-bool AllowRun = true;
 bool gShadow_CTBanFound = false;
 bool gShadow_Admin_HideMe[MAXPLAYERS+1] = false;
 bool gShadow_Tomori_ChangedTeamByTomori[MAXPLAYERS+1] = false;
@@ -209,12 +208,9 @@ public void OnPluginStart()
 
 public void OnClientCookiesCached(int client)
 {
-	if (AllowRun)
-	{
-		#if (MODULE_PURGE == 1)
-		Purge_OnClientCookiesCached(client);
-		#endif
-	}
+	#if (MODULE_PURGE == 1)
+	Purge_OnClientCookiesCached(client);
+	#endif
 }
 
 void RequestIp()
@@ -260,8 +256,6 @@ public int RequestIp_OnHTTPResponse(Handle request, bool bFailure, bool bRequest
 	
 		int Port = GetConVarInt(FindConVar("hostport"));
 		Format(ServerIP, sizeof(ServerIP), "%s:%d", responseBody, Port);
-		
-		AllowRun = true;
 	}
 }
 
@@ -274,67 +268,55 @@ public void OnClientPutInServer(int client)
 
 public void OnClientPostAdminCheck(int client)
 {
-	if (AllowRun)
-	{
-		#if (MODULE_PROFILE == 1)
-		Profile_OnConfigsExecuted();
-		#endif
-		#if (MODULE_PROFILE == 1)
-		Profile_OnClientPostAdminCheck(client);
-		#endif
-		#if (MODULE_TAGS == 1)
-		Tags_OnClientPostAdminCheck(client);
-		#endif
-	}
+	#if (MODULE_PROFILE == 1)
+	Profile_OnConfigsExecuted();
+	#endif
+	#if (MODULE_PROFILE == 1)
+	Profile_OnClientPostAdminCheck(client);
+	#endif
+	#if (MODULE_TAGS == 1)
+	Tags_OnClientPostAdminCheck(client);
+	#endif
 }
 
 public void OnClientDisconnect(int client)
 {
-	if (AllowRun)
-	{
-		#if (MODULE_TAGS == 1)
-		Tags_OnClientDisconnect(client);
-		#endif
-	}
+	#if (MODULE_TAGS == 1)
+	Tags_OnClientDisconnect(client);
+	#endif
 }
 
 public void OnMapStart()
 {
-	if (AllowRun)
-	{
-		#if (MODULE_NAME == 1)
-		Name_OnMapStart();
-		#endif
-		#if (MODULE_BLOCKS == 1)
-		Blocks_OnMapStart();
-		#endif
-		#if (MODULE_FILTERS == 1)
-		Filters_OnMapStart();
-		#endif
-		#if (MODULE_EXTRACOMMANDS == 1)
-		ExtraCMD_OnMapStart();
-		#endif
-		#if (MODULE_PURGE == 1)
-		Purge_OnMapStart();
-		#endif
-		#if (MODULE_WATCHADMIN == 1)
-		Watchadmin_OnMapStart();
-		#endif
-		#if (MODULE_AI == 1)
-		AI_OnMapStart();
-		#endif
-		#if (MODULE_ENFORCER == 1)
-		Enforcer_OnMapStart();
-		#endif
-	}
+	#if (MODULE_NAME == 1)
+	Name_OnMapStart();
+	#endif
+	#if (MODULE_BLOCKS == 1)
+	Blocks_OnMapStart();
+	#endif
+	#if (MODULE_FILTERS == 1)
+	Filters_OnMapStart();
+	#endif
+	#if (MODULE_EXTRACOMMANDS == 1)
+	ExtraCMD_OnMapStart();
+	#endif
+	#if (MODULE_PURGE == 1)
+	Purge_OnMapStart();
+	#endif
+	#if (MODULE_WATCHADMIN == 1)
+	Watchadmin_OnMapStart();
+	#endif
+	#if (MODULE_AI == 1)
+	AI_OnMapStart();
+	#endif
+	#if (MODULE_ENFORCER == 1)
+	Enforcer_OnMapStart();
+	#endif
 }
 
 public void OnMapEnd()
 {
-	if (AllowRun)
-	{
-		#if (MODULE_NAME == 1)
-		Name_OnMapEnd();
-		#endif
-	}
+	#if (MODULE_NAME == 1)
+	Name_OnMapEnd();
+	#endif
 }

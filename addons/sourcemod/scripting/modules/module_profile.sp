@@ -111,7 +111,7 @@ Handle CreateRequest_RequestHours(int client, char[] auth)
 
 public int RequestHours_OnHTTPResponse(Handle request, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, int client)
 {
-	if (!bRequestSuccessful || eStatusCode != k_EHTTPStatusCode200OK && !AllowRun)
+	if (!bRequestSuccessful || eStatusCode != k_EHTTPStatusCode200OK)
 	{
 		#if (MODULE_LOGGING == 1)
 			if (!IsAPIKeyCorrect(cAPIKey, r_ApiKey)) LogToFileEx(gShadow_Tomori_LogFile, "HTTP Request on HourCheck failed!");
@@ -211,7 +211,7 @@ Handle CreateRequest_RequestLevel(int client, char[] auth)
 
 public int RequestLevel_OnHTTPResponse(Handle request, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, int client)
 {
-	if (!bRequestSuccessful || eStatusCode != k_EHTTPStatusCode200OK && !AllowRun)
+	if (!bRequestSuccessful || eStatusCode != k_EHTTPStatusCode200OK)
 	{
 		#if (MODULE_LOGGING == 1)
 			if (!IsAPIKeyCorrect(cAPIKey, r_ApiKey)) LogToFileEx(gShadow_Tomori_LogFile, "HTTP Request on HourCheck failed!");

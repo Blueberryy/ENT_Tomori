@@ -46,7 +46,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define TOMORI_VERSION						"2.2b"
+#define TOMORI_VERSION						"2.3b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1

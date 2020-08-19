@@ -258,4 +258,14 @@
 		"#format"	"{1:N}"
 		"en"		"{1} has been muted for using HLDJ or SLAM without permission."
 	}
+	"Tomori Stealth Connect"
+	{
+		"#format"	"{1:N}"
+		"en"		"{1} has joined the game"
+	}
+	"Tomori Stealth Disconnect"
+	{
+		"#format"	"{1:N}"
+		"en"		"{1} left the game (Disconnected)"
+	}
 }

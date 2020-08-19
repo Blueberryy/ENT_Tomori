@@ -95,7 +95,6 @@ public Action BlockText(UserMsg msg_id, BfRead bf, const int[] players, int play
 		}
 
 		char buffer[25];
-
 		if(GetUserMessageType() == UM_Protobuf)
 		{
 			PbReadString(bf, "msg_name", buffer, sizeof(buffer));
@@ -110,7 +109,7 @@ public Action BlockText(UserMsg msg_id, BfRead bf, const int[] players, int play
 			BfReadString(bf, buffer, sizeof(buffer));
 
 			if(StrEqual(buffer, "#Cstrike_TitlesTXT_Killed_Teammate") && gH_Cvar_Tomori_Blocks_Friendlyfire.BoolValue)
-				return Plugin_Handled;
+				return Plugin_Handled;	
 		}
 	}
 	return Plugin_Continue;
@@ -299,24 +298,35 @@ public Action Event_PlayerTeam(Event event, const char[] name, bool dontBroadcas
 			if (gShadow_Tomori_ChangedTeamByTomori[client])
 			{
 				gShadow_Tomori_ChangedTeamByTomori[client] = false;
-				event.BroadcastDisabled = true;
-				return Plugin_Continue;
+				event.SetBool("silent", true);
+				SetEventBroadcast(event, true);
+				
+				Event fakeevent = CreateEvent("player_team");
+				fakeevent.SetInt("userid", GetClientUserId(client));
+				fakeevent.FireToClient(client);
+				CancelCreatedEvent(fakeevent);
+				return Plugin_Handled;
 			}
 			else
 			{
 				gShadow_Admin_HideMe[client] = false;
 			}
-		
+			
 			if (gH_Cvar_Tomori_Blocks_Enabled.BoolValue)
 			{
 				if (gH_Cvar_Tomori_Blocks_TeamChange.IntValue == 2)
 				{
-					event.BroadcastDisabled = true;
+					event.SetBool("silent", true);
+					SetEventBroadcast(event, true);
+					
+					Event fakeevent = CreateEvent("player_team");
+					fakeevent.SetInt("userid", GetClientUserId(client));
+					fakeevent.FireToClient(client);
+					CancelCreatedEvent(fakeevent);
 				}
 				else if (gH_Cvar_Tomori_Blocks_TeamChange.IntValue == 1)
 				{
 					char TeamName[64];
-					event.BroadcastDisabled = true;
 					
 					if (event.GetInt("team") == CS_TEAM_T) Format(TeamName, sizeof(TeamName), "%t", "Tomori Terrorist");
 					else if (event.GetInt("team") == CS_TEAM_CT) Format(TeamName, sizeof(TeamName), "%t", "Tomori CounterTerrorist");
@@ -334,10 +344,19 @@ public Action Event_PlayerTeam(Event event, const char[] name, bool dontBroadcas
 							CPrintToChat(idx, "%s %t", gShadow_Tomori_ChatPrefix, "Tomori ChangedTeam", Name, TeamName);
 						}
 					}
+
+					event.SetBool("silent", true);
+					SetEventBroadcast(event, true);
+					
+					Event fakeevent = CreateEvent("player_team");
+					fakeevent.SetInt("userid", GetClientUserId(client));
+					fakeevent.FireToClient(client);
+					CancelCreatedEvent(fakeevent);
+					
+					return Plugin_Changed;
 				}
 			}
 		}
 	}
-	
 	return Plugin_Continue;
 }

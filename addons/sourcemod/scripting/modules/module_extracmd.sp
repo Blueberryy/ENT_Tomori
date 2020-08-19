@@ -275,7 +275,13 @@ public Action Command_StealthMode(int client, int args)
 		{
 			if(!gShadow_Admin_HideMe[client])
 			{
-				PrintToChatAll("%N left the game (Disconnected)", client);
+				for (int idx = 1; idx <= MaxClients; idx++)
+				{
+					if (IsValidClient(idx))
+					{
+						CPrintToChat(idx, "%t", "Tomori Stealth Disconnect", client);
+					}
+				}
 			
 				gShadow_Admin_HideMe[client] = true;
 				gShadow_Tomori_ChangedTeamByTomori[client] = true;
@@ -285,7 +291,13 @@ public Action Command_StealthMode(int client, int args)
 			}
 			else
 			{
-				PrintToChatAll("%N has joined the game", client);
+				for (int idx = 1; idx <= MaxClients; idx++)
+				{
+					if (IsValidClient(idx))
+					{
+						CPrintToChat(idx, "%t", "Tomori Stealth Connect", client);
+					}
+				}
 			
 				gShadow_Admin_HideMe[client] = false;
 			}

@@ -118,7 +118,7 @@ public void ExtraCMD_OnClientDisconnect(int client)
 
 public Action OnTakeDamage(int target, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
 {
-	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue)
+	if (gH_Cvar_Tomori_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_Banhammer.BoolValue)
 	{
 		if (gShadow_AdminHas_Banhammer[attacker])
 		{

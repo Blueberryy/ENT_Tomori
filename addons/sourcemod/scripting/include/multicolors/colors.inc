@@ -406,7 +406,7 @@ stock int C_Format(char[] szMessage, int maxlength, int author = NO_INDEX) {
 				}
 				/* If found another team color tag throw error */
 				else {
-					//ReplaceString(szMessage, maxlength, C_Tag[i], "");
+					//ReplaceString(szMessage, maxlength, C_Tag[i], C_TagCode[i], false);
 					ThrowError("Using two team colors in one message is not allowed");
 				}
 			}

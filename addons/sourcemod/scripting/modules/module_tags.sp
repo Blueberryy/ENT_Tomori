@@ -164,6 +164,20 @@ stock void GetUserTagByFlag(int client)
 			kv.GetString("name-color", gShadow_Tomori_Client_NColor[client], sizeof(gShadow_Tomori_Client_NColor));
 			kv.GetString("tag-color", gShadow_Tomori_Client_TColor[client], sizeof(gShadow_Tomori_Client_TColor));
 			
+			if (StrEqual(gShadow_Tomori_Client_CColor[client], "{red}"))
+				ReplaceString(gShadow_Tomori_Client_CColor[client], sizeof(gShadow_Tomori_Client_CColor), "{red}", "\x02");	
+			if (StrEqual(gShadow_Tomori_Client_NColor[client], "{red}"))
+				ReplaceString(gShadow_Tomori_Client_NColor[client], sizeof(gShadow_Tomori_Client_NColor), "{red}", "\x02");
+			if (StrEqual(gShadow_Tomori_Client_TColor[client], "{red}"))
+				ReplaceString(gShadow_Tomori_Client_TColor[client], sizeof(gShadow_Tomori_Client_TColor), "{red}", "\x02");
+				
+			if (StrEqual(gShadow_Tomori_Client_CColor[client], "{blue}"))
+				ReplaceString(gShadow_Tomori_Client_CColor[client], sizeof(gShadow_Tomori_Client_CColor), "{blue}", "\x0C");	
+			if (StrEqual(gShadow_Tomori_Client_NColor[client], "{blue}"))
+				ReplaceString(gShadow_Tomori_Client_NColor[client], sizeof(gShadow_Tomori_Client_NColor), "{blue}", "\x0C");
+			if (StrEqual(gShadow_Tomori_Client_TColor[client], "{blue}"))
+				ReplaceString(gShadow_Tomori_Client_TColor[client], sizeof(gShadow_Tomori_Client_TColor), "{blue}", "\x0C");
+			
 			NotSet = false;
 			SetUserTags(client);
 		}
@@ -199,7 +213,7 @@ public Action CP_OnChatMessage(int& client, ArrayList recipients, char[] flagstr
 			Format(name, MAX_NAME_LENGTH, "%s %s", SetRandom(gShadow_Tomori_Client_Tag[client]), name);
 		else
 			Format(name, MAX_NAME_LENGTH, "%s%s %s", gShadow_Tomori_Client_TColor[client], gShadow_Tomori_Client_Tag[client], name);
-
+		
 		return Plugin_Changed;
 	}
 	return Plugin_Continue;

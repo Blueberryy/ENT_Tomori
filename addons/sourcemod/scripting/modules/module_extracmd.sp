@@ -22,11 +22,15 @@ ConVar gH_Cvar_Tomori_ExtraCMD_Enabled;					//Enable or disable ExtraCMD Module 
 
 ConVar gH_Cvar_Tomori_ExtraCMD_Stealth;					//Enable or disable Stealth Command (0 - Disable, 1 - Enable)
 ConVar gH_Cvar_Tomori_ExtraCMD_Stealth_Flag;			//Flag to use stealth
+ConVar gH_Cvar_Tomori_ExtraCMD_ClearWep;				//Enable or disable Clear Dropped Weapons Command (0 - Disable, 1 - Enable)
+ConVar gH_Cvar_Tomori_ExtraCMD_ClearWep_Flag;			//Flag to use Clear dropped weapons command
 ConVar gH_Cvar_Tomori_ExtraCMD_Banhammer;				//Enable or disable Banhammer Command (0 - Disable, 1 - Enable)
 ConVar gH_Cvar_Tomori_ExtraCMD_Banhammer_Flag;			//Flag to use banhammer
 ConVar gH_Cvar_Tomori_ExtraCMD_Banhammer_BanTime;		//BanTime for BanHammer
 
 bool gShadow_AdminHas_Banhammer[MAXPLAYERS+1];
+
+int g_iDroppedEntity[12][MAXPLAYERS+1];
 
 int g_iPlayerManager,
 	g_iConnectedOffset,
@@ -44,6 +48,8 @@ public void ExtraCMD_OnPluginStart()
 
 	gH_Cvar_Tomori_ExtraCMD_Enabled = AutoExecConfig_CreateConVar("tomori_extracmd_enabled", "1", "Enable or disable extracmd module in tomori:", 0, true, 0.0, true, 1.0);
 	gH_Cvar_Tomori_ExtraCMD_Banhammer = AutoExecConfig_CreateConVar("tomori_extracmd_banhammer_enabled", "1", "Enable or disable banhammer command:", 0, true, 0.0, true, 1.0);
+	gH_Cvar_Tomori_ExtraCMD_ClearWep = AutoExecConfig_CreateConVar("tomori_extracmd_clearwep_enabled", "1", "Enable or disable Clear Dropped Weapons Command:", 0, true, 0.0, true, 1.0);
+	gH_Cvar_Tomori_ExtraCMD_ClearWep_Flag = AutoExecConfig_CreateConVar("tomori_extracmd_clearwep_flag", "b", "Flag to use sm_clearwep", 0);
 	gH_Cvar_Tomori_ExtraCMD_Banhammer_BanTime = AutoExecConfig_CreateConVar("tomori_extracmd_banhammer_bantime", "0", "Bantime for Ban-Hammer", 0, true, 0.0);
 	gH_Cvar_Tomori_ExtraCMD_Stealth = AutoExecConfig_CreateConVar("tomori_extracmd_stealth_enabled", "1", "Enable or disable stealth command:", 0, true, 0.0, true, 1.0);
 	gH_Cvar_Tomori_ExtraCMD_Stealth_Flag = AutoExecConfig_CreateConVar("tomori_extracmd_stealth_flag", "b", "Flag to use sm_stealth", 0);
@@ -54,17 +60,22 @@ public void ExtraCMD_OnPluginStart()
 
 	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue)
 	{
-		char stealth_flag[32], banhammer_flag[32];
+		char stealth_flag[32], banhammer_flag[32], clearwep_flag[32];
 	
 		gH_Cvar_Tomori_ExtraCMD_Stealth_Flag.GetString(stealth_flag, sizeof(stealth_flag));
 		gH_Cvar_Tomori_ExtraCMD_Banhammer_Flag.GetString(banhammer_flag, sizeof(banhammer_flag));
+		gH_Cvar_Tomori_ExtraCMD_ClearWep_Flag.GetString(clearwep_flag, sizeof(clearwep_flag));
 		
 		GetFlagInt(banhammer_flag);
 		int bh_flag = StringToInt(banhammer_flag);
 		
 		GetFlagInt(stealth_flag);
 		int st_flag = StringToInt(stealth_flag);
+		
+		GetFlagInt(clearwep_flag);
+		int cw_flag = StringToInt(clearwep_flag);
 	
+		RegAdminCmd("sm_clearwep", Command_ClearWeapons, cw_flag, "Clear dropped weapons by players");
 		RegAdminCmd("sm_stealth", Command_StealthMode, st_flag, "Set admins to stealth mode");
 		RegAdminCmd("sm_banhammer", Command_Banhammer, bh_flag, "Gives the banhammer to the client");
 		RegAdminCmd("sm_aborthammer", Command_AbortBanhammer, bh_flag, "Remive banhammer from the player");
@@ -91,6 +102,87 @@ public void ExtraCMD_OnPluginStart()
 	g_iScoreOffset = FindSendPropInfo("CCSPlayerResource", "m_iScore");
 	g_iDeathsOffset = FindSendPropInfo("CCSPlayerResource", "m_iDeaths");
 	g_iHealthOffset = FindSendPropInfo("CCSPlayerResource", "m_iHealth");
+	
+	if (gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue)
+	{
+		for (int idx = 1; idx <= MaxClients; idx++)
+		{
+			if (IsValidClient(idx))
+			{
+				SDKHook(idx, SDKHook_WeaponDrop, WeaponDrop);
+			}
+		}
+	}
+}
+
+public void ExtraCMD_OnClientPutInServer(int client)
+{
+	if (IsValidClient(client) && gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue)
+	{
+		SDKHook(client, SDKHook_WeaponDrop, WeaponDrop);
+	}
+}
+
+public Action WeaponDrop(int client, int weapon)
+{
+	if (gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue && IsValidClient(client))
+	{
+		if (Weapon_IsValid(weapon))
+		{
+			bool HandledDrop = false;
+			for (int idx = 0; idx < 10; idx++)
+			{
+				if (!HandledDrop && g_iDroppedEntity[client][idx] == 0)
+				{
+					g_iDroppedEntity[client][idx] = weapon;
+					HandledDrop = true;
+				}
+			}
+			
+			if (!HandledDrop)
+			{
+				PerformCleanForClient(client);
+				for (int idx = 1; idx <= MaxClients; idx++)
+				{
+					if (IsValidClient(idx))
+					{
+						CPrintToChat(idx, "%s %t", gShadow_Tomori_ChatPrefix, "Tomori ClearWep Overflow", client);
+					}
+				}
+				
+				WeaponDrop(client, weapon);
+			}
+		}
+	}
+	return Plugin_Continue;
+} 
+
+public void PerformCleanForClient(int client)
+{
+	if (gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue && IsValidClient(client))
+	{
+		for (int idx = 0; idx < 10; idx++)
+		{
+			if (g_iDroppedEntity[client][idx] != 0)
+			{
+				int maxentities = GetMaxEntities();
+				for (int entidx = MAXPLAYERS; entidx <= maxentities; entidx++)
+				{
+					if (!Entity_IsValid(entidx) || !IsValidEdict(entidx) || !Weapon_IsValid(entidx))
+						continue;
+
+					if (GetEntPropEnt(entidx, Prop_Data, "m_hOwner") == -1)
+					{
+						if (g_iDroppedEntity[client][idx] == entidx)
+						{
+							RemoveEdict(entidx);
+						}
+					}
+				}
+				g_iDroppedEntity[client][idx] = 0;
+			}
+		}
+	}
 }
 
 public void ExtraCMD_OnMapStart()
@@ -302,6 +394,32 @@ public Action Command_StealthMode(int client, int args)
 				gShadow_Admin_HideMe[client] = false;
 			}
 		}			
+	}
+	return Plugin_Continue;
+}
+
+public Action Command_ClearWeapons(int client, int args)
+{
+	if (gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue)
+	{
+		if (IsValidClient(client))
+		{
+			for (int idx = 1; idx <= MaxClients; idx++)
+			{
+				if (IsValidClient(idx))
+				{
+					PerformCleanForClient(idx);
+				}
+			}
+		}
+
+		for (int idx = 1; idx <= MaxClients; idx++)
+		{
+			if (IsValidClient(idx))
+			{
+				CPrintToChat(idx, "%s %t", gShadow_Tomori_ChatPrefix, "Tomori ClearWep AdminClear", client);
+			}
+		}
 	}
 	return Plugin_Continue;
 }

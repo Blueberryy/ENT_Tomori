@@ -1,3 +1,14 @@
+-- 2020. 08. 25.
+
+ > Added AutoJoin Module
+ > Added 2 Mode to AutoJoin
+ > Added Weapon Overflow block
+ > Added Weapon Clear Command
+ > Added 2 new Translation
+ > Added Hungarian Translation
+ 
+ - Requests Completed: Yvano, Kris
+
 -- 2020. 08. 18.
 
  > Team Change Bug Fixed

@@ -41,6 +41,9 @@ FEATURE LIST:
 	> Banhammer					-	Summons banhammer. Player hurt with that gets banned for specified time
 	> Stealth					-	Hide admins from player in spectator (Tomori supported)
 		> Extra					-	Disconnected and Connected message
+	> ClearWep
+		> Clear all dropper weapons with a command (by players)
+		> If a player dropped more than 10 weapons all of them gets cleared because of overflow
 	> Blocks
 		> Supports
 			> Friendly-fire		-	Block announcements
@@ -78,3 +81,7 @@ FEATURE LIST:
 			> Server Connect Filter
 			> Whitelist
 			> Blacklist
+	> AutoJoin
+		> Supports
+			> Determine where to join automatically (Mode 1)
+			> Set where to join  (Mode 0)

@@ -46,7 +46,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define TOMORI_VERSION						"2.3b"
+#define TOMORI_VERSION						"2.4b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1
@@ -62,6 +62,7 @@
 #define	MODULE_TAGS							1
 #define MODULE_LOGGING						1
 #define MODULE_EXTRACOMMANDS				1
+#define	MODULE_AUTOJOIN						1
 
 ConVar gH_Cvar_Tomori_Enabled;
 
@@ -138,6 +139,10 @@ char Replace_Special[128] = "§\'~\"+^!%/`=()¸.:;?,*<>_-@&#$[]{}|\\  ";
 	#include "modules/module_extracmd.sp"
 #endif
 
+#if (MODULE_AUTOJOIN == 1)
+	#include "modules/module_autojoin.sp"
+#endif
+
 public Plugin myinfo = 
 {
 	name = "[CSGO] Tomori <3", 
@@ -202,6 +207,9 @@ public void OnPluginStart()
 	#if (MODULE_COUNTRY == 1)
 	CountryFilter_OnPluginStart();
 	#endif
+	#if (MODULE_AUTOJOIN == 1)
+	AutoJoin_OnPluginStart();
+	#endif
 	
 	RequestIp();
 }
@@ -263,6 +271,9 @@ public void OnClientPutInServer(int client)
 {
 	#if (MODULE_NAME == 1)
 	Profile_OnClientPutInServer(client);
+	#endif
+	#if (MODULE_EXTRACOMMANDS == 1)
+	ExtraCMD_OnClientPutInServer(client);
 	#endif
 }
 

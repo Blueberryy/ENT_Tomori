@@ -268,4 +268,14 @@
 		"#format"	"{1:N}"
 		"en"		"{1} left the game (Disconnected)"
 	}
+	"Tomori ClearWep Overflow"
+	{
+		"#format"	"{1:N}"
+		"en"		"All weapons dropped by {1} have been cleared because of an overflow."
+	}
+	"Tomori ClearWep AdminClear"
+	{
+		"#format"	"{1:N}"
+		"en"		"{1} has cleared all weapons dropped by players."
+	}
 }

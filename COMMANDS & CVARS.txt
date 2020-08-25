@@ -2,6 +2,8 @@
 <sm_aborthammer>	|	!aborthammer	-> Aborts the banhammer and restore your weapons
 <sm_player>			|	!player			-> Opens the player list and you can get information from player or execute commands fast
 <sm_stealth>		|	!stealth		-> Hides admin from player in spectator
+<sm_clearwep>		|	!clearwep		-> Clear all dropped weapons by players 
+
 
 
 NOTE: Cvars updates automatically, so you don't have to delete files.
@@ -73,6 +75,8 @@ tomori_extracmd_banhammer_flag		|	Flag to use sm_banhammer
 tomori_extracmd_banhammer_bantime	|	Bantime for Ban-Hammer.
 tomori_extracmd_stealth_enabled		|	Enable or disable stealth command.
 tomori_extracmd_stealth_flag		|	Flag to use sm_stealth
+tomori_extracmd_clearwep_enabled	|	Enable or disable Clear Weapon command.
+tomori_extracmd_clearwep_flag		|	Flag to use sm_clearwep
 
 tomori_blocks_enabled				|	Enable or disable blocks module in tomori.
 tomori_blocks_friendlyfire			|	Enable or disable friendlyfire chat announce block  (0 - Disable, 1 - Enable)
@@ -85,4 +89,6 @@ tomori_blocks_status				|	Enable or disable status block (0 - Disable, 1 - Enabl
 tomori_blocks_ping					|	Enable or disable block ping in console (0 - Enable, 1 - Disable)
 tomori_blocks_savedplayer			|	Enable or disable saved player chat announce block  (0 - Disable, 1 - Enable)
 
-
+tomori_autojoin_enabled				|	Enable or disable AutoJoin Module (0 - Disable, 1 - Enabled)
+tomori_autojoin_mode				|	AutJoin Mode (0 - Given Team with ConVar, 1 - AutoAssign)
+tomori_autojoin_team				|	Team to join automatically (1 - Spectator, 2 - Terrorist, 3 - Counter-Terrorist)

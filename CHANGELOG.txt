@@ -1,3 +1,8 @@
+-- 2020. 08. 26.
+
+ > Fixed Team Change Bug
+ > Fixed AutoJoin Enabled Cvar
+
 -- 2020. 08. 25.
 
  > Added AutoJoin Module

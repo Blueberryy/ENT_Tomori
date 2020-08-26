@@ -41,16 +41,34 @@ public void AutoJoin_OnPluginStart()
 	HookEvent("player_connect_full", Event_ConnectionComplete);
 		
 	GraceTime = FindConVar("mp_join_grace_time");
-	
+
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
+}
+
+public Action AutoJoin_JoinTeamCmd(int client, char[] command, int argc)
+{
+	if (!IsValidClient(client) || !gH_Cvar_Tomori_AutoJoin_Enabled.BoolValue || argc < 1)
+		return Plugin_Continue;
+	
+	char arg[4];
+	GetCmdArg(1, arg, sizeof(arg));
+	int toteam = StringToInt(arg);
+	
+	if (toteam != GetClientTeam(client))
+	{
+		if (IsPlayerAlive(client)) ForcePlayerSuicide(client);
+		
+		ChangeClientTeam(client, toteam);
+	}
+	return Plugin_Continue;
 }
 
 public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(event.GetInt("userid"));
 
-	if (!IsValidClient(client)) return;
+	if (!IsValidClient(client) || !gH_Cvar_Tomori_AutoJoin_Enabled.BoolValue) return;
 
 	int Team = 0;
 	if (gH_Cvar_Tomori_AutoJoin_Mode.BoolValue)
@@ -73,7 +91,7 @@ public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcas
 
 public void Event_RoundStart(Event event, char[] name, bool dontBroadcast)
 {
-	if (GameRules_GetProp("m_bWarmupPeriod") != 1)
+	if (GameRules_GetProp("m_bWarmupPeriod") != 1 && gH_Cvar_Tomori_AutoJoin_Enabled.BoolValue)
 	{
 		CreateTimer(GraceTime.FloatValue, Timer_BlockSpawn, _, TIMER_FLAG_NO_MAPCHANGE);
 		AllowSpawn = true;

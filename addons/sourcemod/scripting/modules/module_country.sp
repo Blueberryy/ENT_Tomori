@@ -41,11 +41,9 @@ public void CountryFilter_OnPluginStart()
 	
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-	
-	AddCommandListener(JoinTeamCmd, "jointeam");
 }
 
-public Action JoinTeamCmd(int client, char[] command, int argc)
+public Action Country_JoinTeamCmd(int client, char[] command, int argc)
 {
 	if(!IsValidClient(client) || argc < 1 || !gH_Cvar_Tomori_CountryFilter_Enabled.BoolValue)
 		return Plugin_Continue;
@@ -56,7 +54,7 @@ public Action JoinTeamCmd(int client, char[] command, int argc)
 	
 	if (gH_Cvar_Tomori_CountryFilter_Block_CT.BoolValue)
 	{
-		if (toteam == CS_TEAM_CT)
+		if (toteam == CS_TEAM_CT && toteam != GetClientTeam(client))
 		{
 			char ip[16], code2[3];
 			GetClientIP(client, ip, sizeof(ip));

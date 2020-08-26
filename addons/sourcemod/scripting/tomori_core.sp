@@ -46,7 +46,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define TOMORI_VERSION						"2.4b"
+#define TOMORI_VERSION						"2.41b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1
@@ -211,7 +211,19 @@ public void OnPluginStart()
 	AutoJoin_OnPluginStart();
 	#endif
 	
+	AddCommandListener(JoinTeamCmd, "jointeam");
+	
 	RequestIp();
+}
+
+public Action JoinTeamCmd(int client, char[] command, int argc)
+{
+	#if (MODULE_COUNTRY == 1)
+	Country_JoinTeamCmd(client, command, argc);
+	#endif
+	#if (MODULE_AUTOJOIN == 1)
+	AutoJoin_JoinTeamCmd(client, command, argc);
+	#endif
 }
 
 public void OnClientCookiesCached(int client)

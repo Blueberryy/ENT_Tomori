@@ -240,4 +240,20 @@
 	{
 		"tr"		"{1}, HLDJ veya SLAM'ı izinsiz kullandığı için kapatıldı."
 	}
+	"Tomori Stealth Connect"
+	{
+		"tr"		"{1} oyuna bağlandı"
+	}
+	"Tomori Stealth Disconnect"
+	{
+		"tr"		"Oyuncu {1} oyundan ayrıldı (Bağlantı kesildi)"
+	}
+	"Tomori ClearWep Overflow"
+	{
+		"tr"		"{1} tarafından düşürülen tüm silahlar, bir taşma nedeniyle temizlendi."
+	}
+	"Tomori ClearWep AdminClear"
+	{
+		"tr"		"{1} oyunculardan düşen tüm silahları temizledi."
+	}
 }

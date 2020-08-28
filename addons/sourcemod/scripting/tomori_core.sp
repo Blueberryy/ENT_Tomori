@@ -40,13 +40,15 @@
 #include <sourcebanspp>
 #include <sourcecomms>
 #include <ctban>
+#include <teambans>
+#include <myjailbreak>
 #define REQUIRE_PLUGIN
 #define REQUIRE_EXTENSIONS
 
 #pragma semicolon 1
 #pragma newdecls required
 
-#define TOMORI_VERSION						"2.41b"
+#define TOMORI_VERSION						"2.5b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1
@@ -65,12 +67,16 @@
 #define	MODULE_AUTOJOIN						1
 
 ConVar gH_Cvar_Tomori_Enabled;
+ConVar gH_Cvar_Tomori_ChatPrefix;
 
 char ServerIP[64];
-char gShadow_Tomori_ChatPrefix[64] = "\x01[\x07Tomori\x01]\x0B";
+char gShadow_Tomori_ChatPrefix[256];
 char gShadow_Tomori_LogFile[PLATFORM_MAX_PATH];
 
 bool gShadow_CTBanFound = false;
+bool gShadow_TeamBanFound = false;
+bool gShadow_MYJBBanFound = false;
+
 bool gShadow_Admin_HideMe[MAXPLAYERS+1] = false;
 bool gShadow_Tomori_ChangedTeamByTomori[MAXPLAYERS+1] = false;
 bool gShadow_Tomori_Client_Prime[MAXPLAYERS+1] = true;
@@ -163,10 +169,15 @@ public void OnPluginStart()
 	DirExistsEx("cfg/Tomori");
 
 	gShadow_CTBanFound = LibraryExists("ctban");
+	gShadow_MYJBBanFound = LibraryExists("myjailbreak");
+	gShadow_TeamBanFound = LibraryExists("teambans");
 	
 	AutoExecConfig_SetFile("Core", "Tomori");
 	AutoExecConfig_SetCreateFile(true);
 	gH_Cvar_Tomori_Enabled = AutoExecConfig_CreateConVar("tomori_enabled", "1", "Enable or disable Tomori AI from Entity:", 0, true, 0.0, true, 1.0);
+	gH_Cvar_Tomori_ChatPrefix = AutoExecConfig_CreateConVar("sm_tomori_chat_banner", "{default}[{lightred}Tomori{default}]", "Edit ChatTag for Tomori (Colors can be used).");
+	
+	HookConVarChange(gH_Cvar_Tomori_ChatPrefix, OnCvarChange);
 	
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
@@ -210,10 +221,20 @@ public void OnPluginStart()
 	#if (MODULE_AUTOJOIN == 1)
 	AutoJoin_OnPluginStart();
 	#endif
+	#if (MODULE_ANTISLAM == 1)
+	Antislam_OnPluginStart();
+	#endif
 	
 	AddCommandListener(JoinTeamCmd, "jointeam");
 	
 	RequestIp();
+}
+
+public void OnCvarChange(ConVar cvar, char[] oldvalue, char[] newvalue)
+{
+	char buffer[128];
+	GetConVarString(gH_Cvar_Tomori_ChatPrefix, buffer, sizeof(buffer));
+	Format(gShadow_Tomori_ChatPrefix, sizeof(gShadow_Tomori_ChatPrefix), "%s{lightblue} ", buffer);
 }
 
 public Action JoinTeamCmd(int client, char[] command, int argc)
@@ -289,10 +310,17 @@ public void OnClientPutInServer(int client)
 	#endif
 }
 
+public void OnConfigsExecuted()
+{
+	char buffer[128];
+	GetConVarString(gH_Cvar_Tomori_ChatPrefix, buffer, sizeof(buffer));
+	Format(gShadow_Tomori_ChatPrefix, sizeof(gShadow_Tomori_ChatPrefix), "%s{lightblue} ", buffer);
+}
+
 public void OnClientPostAdminCheck(int client)
 {
 	#if (MODULE_PROFILE == 1)
-	Profile_OnConfigsExecuted();
+	Profile_CheckApi();
 	#endif
 	#if (MODULE_PROFILE == 1)
 	Profile_OnClientPostAdminCheck(client);

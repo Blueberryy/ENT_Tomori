@@ -62,12 +62,12 @@ public void Profile_OnPluginStart()
 	AutoExecConfig_CleanFile();
 }
 
-public void Profile_OnConfigsExecuted()
+public void Profile_CheckApi()
 {
 	gH_Cvar_Tomori_Profile_ApiKey.GetString(cAPIKey, sizeof(cAPIKey));
 	
 	#if (MODULE_LOGGING == 1)
-		if (!IsAPIKeyCorrect(cAPIKey, r_ApiKey)) LogToFileEx(gShadow_Tomori_LogFile, "API Key is Invalid in tomori_profile_apikey");
+		if (!IsAPIKeyCorrect(cAPIKey, r_ApiKey)) LogToFileEx(gShadow_Tomori_LogFile, "Steam-API Key is Invalid in tomori_profile_apikey | Use cfg/tomori/module_profile.cfg to enter a key.");
 	#endif
 }
 

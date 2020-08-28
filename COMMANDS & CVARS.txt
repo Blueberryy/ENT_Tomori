@@ -9,6 +9,7 @@
 NOTE: Cvars updates automatically, so you don't have to delete files.
 
 tomori_enabled						|	Enable or disable Tomori AI from Entity.
+sm_tomori_chat_banner				|	Change the prefix of messages.
 
 tomori_ai_enabled					|	Enable or disable AI module in tomori.
 tomori_ai_autoreply					|	Enable or disable autoreply
@@ -48,12 +49,12 @@ tomori_name_badword_filter			|	Enable or disable change names with bad words in 
 
 tomori_enforcer_enabled				|	Enable or disable Enforcer module
 
-tomori_antislam_enabled				|	Enable or disable Antislam module in tomori
+tomori_antislam_enabled				|	Enable or disable Antislam module in Tomori
 tomori_antislam_immune_flag			|	Immune flag to HLDJ and SLAM mute
-tomori_antislam_punishment			|	Punishment mode for using HLDJ or SLAM (0 - Gag, 1 - Kick, 2 - Ban)
+tomori_antislam_punishment			|	Punishment mode for using HLDJ or SLAM (0 - Mute, 1 - Kick, 2 - Ban)
 tomori_antislam_reason				|	Punishment Reason for using HLDJ or SLAM
-tomori_antislam_gag_time			|	Ban Time for punishment
-tomori_antislam_ban_time			|	Gag Time for punishment
+tomori_antislam_mute_time			|	Ban Time for punishment
+tomori_antislam_ban_time			|	Mute Time for punishment
 tomori_antislam_logging				|	Enable or disable antislam logging (0 - Disable, 1 - Enabled)
 
 tomori_gathering_enabled			|	Enable or disable gathering module in tomori.

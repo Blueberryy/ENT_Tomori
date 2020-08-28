@@ -57,11 +57,37 @@ public Action AutoJoin_JoinTeamCmd(int client, char[] command, int argc)
 	
 	if (toteam != GetClientTeam(client))
 	{
+		if (gShadow_CTBanFound)
+		{
+			if ((CTBan_IsClientBanned(client)) && (toteam == CS_TEAM_CT))
+				toteam = CS_TEAM_T;
+		}
+		
+		if (gShadow_TeamBanFound)
+		{
+			if ((TeamBans_IsClientBanned(client)) && (toteam == CS_TEAM_CT))
+				toteam = CS_TEAM_T;
+		}
+		
+		if (gShadow_MYJBBanFound)
+		{
+			if (MyJB_Blocked[client])
+			{
+				MyJB_Blocked[client] = false;
+				toteam = CS_TEAM_T;
+			}
+		}
+	
 		if (IsPlayerAlive(client)) ForcePlayerSuicide(client);
 		
 		ChangeClientTeam(client, toteam);
 	}
 	return Plugin_Continue;
+}
+
+public Action MyJailbreak_OnJoinGuardQueue(int client)
+{
+	if (gShadow_MYJBBanFound) MyJB_Blocked[client] = true;
 }
 
 public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcast)
@@ -79,6 +105,27 @@ public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcas
 	else
 	{
 		Team = gH_Cvar_Tomori_AutoJoin_Team.IntValue;
+	}
+	
+	if (gShadow_CTBanFound)
+	{
+		if ((CTBan_IsClientBanned(client)) && (Team == CS_TEAM_CT))
+			Team = CS_TEAM_T;
+	}
+	
+	if (gShadow_TeamBanFound)
+	{
+		if ((TeamBans_IsClientBanned(client)) && (Team == CS_TEAM_CT))
+			Team = CS_TEAM_T;
+	}
+	
+	if (gShadow_MYJBBanFound)
+	{
+		if (MyJB_Blocked[client])
+		{
+			MyJB_Blocked[client] = false;
+			return;
+		}
 	}
 	
 	ChangeClientTeam(client, Team);

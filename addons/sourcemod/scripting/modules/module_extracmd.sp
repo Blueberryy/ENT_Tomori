@@ -41,6 +41,8 @@ int g_iPlayerManager,
 	g_iDeathsOffset,
 	g_iHealthOffset;
 
+bool MyJB_Blocked[MAXPLAYERS+1] = false;
+
 public void ExtraCMD_OnPluginStart()
 {
 	AutoExecConfig_SetFile("Module_ExtraCMD", "Tomori");
@@ -132,6 +134,8 @@ public Action WeaponDrop(int client, int weapon)
 			bool HandledDrop = false;
 			for (int idx = 0; idx < 10; idx++)
 			{
+				if (idx > 10) continue;
+				
 				if (!HandledDrop && g_iDroppedEntity[client][idx] == 0)
 				{
 					g_iDroppedEntity[client][idx] = weapon;
@@ -171,11 +175,14 @@ public void PerformCleanForClient(int client)
 					if (!Entity_IsValid(entidx) || !IsValidEdict(entidx) || !Weapon_IsValid(entidx))
 						continue;
 
-					if (GetEntPropEnt(entidx, Prop_Data, "m_hOwner") == -1)
+					if (HasEntProp(entidx, Prop_Data, "m_hOwnerEnity"))
 					{
-						if (g_iDroppedEntity[client][idx] == entidx)
+						if (GetEntPropEnt(entidx, Prop_Data, "m_hOwnerEnity") == -1)
 						{
-							RemoveEdict(entidx);
+							if (g_iDroppedEntity[client][idx] == entidx)
+							{
+								RemoveEdict(entidx);
+							}
 						}
 					}
 				}
@@ -201,11 +208,30 @@ public void ExtraCMD_OnMapStart()
 	g_iPlayerManager = FindEntityByClassname(-1, "cs_player_manager");
 	if(g_iPlayerManager != -1)
 		SDKHook(g_iPlayerManager, SDKHook_ThinkPost, Hook_PMThink);
+		
+	for (int client = 1; client <= MaxClients; client++)
+	{
+		for (int idx = 0; idx < 10; idx++)
+		{
+			if ((idx > 10) || !IsValidClient(idx)) continue;
+			
+			if (g_iDroppedEntity[client][idx] == 0)
+				g_iDroppedEntity[client][idx] = 0;
+		}
+	}
 }
 
 public void ExtraCMD_OnClientDisconnect(int client)
 {
 	gShadow_Admin_HideMe[client] = false;
+	
+	for (int idx = 0; idx < 10; idx++)
+	{
+		if ((idx > 10) || !IsValidClient(idx)) continue;
+		
+		if (g_iDroppedEntity[client][idx] == 0)
+			g_iDroppedEntity[client][idx] = 0;
+	}
 }
 
 public Action OnTakeDamage(int target, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])

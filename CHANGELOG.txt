@@ -1,7 +1,22 @@
+-- 2020. 08. 28.
+
+ > Added ConVar to change prefix,
+ > Added Anti-Slam to startup,
+ > Added CT-Ban support,
+ > Added TeamBan support,
+ > Added MyJailbreak support,
+ > Added security blocks to WeaponDrops,
+ > Added WeaponDrop reset on disconnect,
+ > Added new syntax to whole smlib includes (because of a warning xd),
+ > Fixed whole Anti-Slam,
+ > Fixed TeamJoin,
+ > Fixed bot attacking teammate message
+
 -- 2020. 08. 26.
 
  > Fixed Team Change Bug
  > Fixed AutoJoin Enabled Cvar
+ > Updated Turkish Translation
 
 -- 2020. 08. 25.
 

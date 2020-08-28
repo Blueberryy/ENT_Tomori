@@ -222,6 +222,9 @@ public Action BlockMsg(UserMsg msg_id, BfRead msg, const int[] players, int play
 				return Plugin_Handled;
 		}
 		
+		if ((StrContains(buffer, "teammate") != -1) && gH_Cvar_Tomori_Blocks_Friendlyfire.BoolValue) 
+			return Plugin_Handled;
+		
 		if (gH_Cvar_Tomori_Blocks_SavedPlayer.BoolValue)
 		{
 			if (StrContains(buffer, "#Chat_SavePlayer_", false) != -1)

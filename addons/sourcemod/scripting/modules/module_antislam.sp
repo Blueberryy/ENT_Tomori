@@ -23,7 +23,7 @@ ConVar gH_Cvar_Tomori_Antislam_Flag;				//Immune flag to mutes
 ConVar gH_Cvar_Tomori_Antislam_Punishment;			//Punishment mode for using HLDJ or SLAM
 ConVar gH_Cvar_Tomori_Antislam_Punish_Reason;		//Punishment Reason for using HLDJ or SLAM
 ConVar gH_Cvar_Tomori_Antislam_Ban_Time;			//Ban Time for punishment
-ConVar gH_Cvar_Tomori_Antislam_Gag_Time;			//Gag Time for punishment
+ConVar gH_Cvar_Tomori_Antislam_Mute_Time;			//Mute Time for punishment
 ConVar gH_Cvar_Tomori_Antislam_Logging;				//Enable or disable antislam logging (0 - Disable, 1 - Enabled)
 
 public void Antislam_OnPluginStart()
@@ -33,10 +33,10 @@ public void Antislam_OnPluginStart()
 
 	gH_Cvar_Tomori_Antislam_Enabled = AutoExecConfig_CreateConVar("tomori_antislam_enabled", "1", "Enable or disable Antislam module in tomori", 0, true, 0.0, true, 1.0);
 	gH_Cvar_Tomori_Antislam_Flag = AutoExecConfig_CreateConVar("tomori_antislam_immune_flag", "b", "Immune flag to HLDJ and SLAM mute", 0);
-	gH_Cvar_Tomori_Antislam_Punishment = AutoExecConfig_CreateConVar("tomori_antislam_punishment", "1", "Punishment mode for using HLDJ or SLAM (0 - Gag, 1 - Kick, 2 - Ban)", 0, true, 0.0, true, 2.0);
+	gH_Cvar_Tomori_Antislam_Punishment = AutoExecConfig_CreateConVar("tomori_antislam_punishment", "1", "Punishment mode for using HLDJ or SLAM (0 - Mute, 1 - Kick, 2 - Ban)", 0, true, 0.0, true, 2.0);
 	gH_Cvar_Tomori_Antislam_Punish_Reason = AutoExecConfig_CreateConVar("tomori_antislam_reason", "You are not allowed to use Soundboard.", "Punishment Reason for using HLDJ or SLAM", 0);
-	gH_Cvar_Tomori_Antislam_Ban_Time = AutoExecConfig_CreateConVar("tomori_antislam_gag_time", "10", "Ban Time for punishment", 0, true, 0.0);
-	gH_Cvar_Tomori_Antislam_Gag_Time = AutoExecConfig_CreateConVar("tomori_antislam_ban_time", "30", "Gag Time for punishment", 0, true, 0.0);
+	gH_Cvar_Tomori_Antislam_Ban_Time = AutoExecConfig_CreateConVar("tomori_antislam_ban_time", "10", "Ban Time for punishment", 0, true, 0.0);
+	gH_Cvar_Tomori_Antislam_Mute_Time = AutoExecConfig_CreateConVar("tomori_antislam_mute_time", "30", "Mute Time for punishment", 0, true, 0.0);
 	gH_Cvar_Tomori_Antislam_Logging = AutoExecConfig_CreateConVar("tomori_antislam_logging", "1", "Enable or disable antislam logging (0 - Disable, 1 - Enabled)", 0, true, 0.0, true, 1.0);
 	
 	if (!gH_Cvar_Tomori_Enabled.BoolValue)
@@ -87,7 +87,7 @@ public void CB_CheckAudio(QueryCookie cookie, int client, ConVarQueryResult resu
 			{
 				if (!BaseComm_IsClientMuted(client))
 				{
-					ServerCommand("sm_gag #%i %i \"%s\"", GetClientUserId(client), gH_Cvar_Tomori_Antislam_Gag_Time.IntValue, reason);	
+					ServerCommand("sm_mute #%i %i \"%s\"", GetClientUserId(client), gH_Cvar_Tomori_Antislam_Mute_Time.IntValue, reason);	
 					return;
 				}
 			}

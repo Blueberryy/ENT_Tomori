@@ -85,3 +85,5 @@ FEATURE LIST:
 		> Supports
 			> Determine where to join automatically (Mode 1)
 			> Set where to join  (Mode 0)
+	> NoDisarm
+		> Turns off weapon drop on fist hit for players.

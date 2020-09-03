@@ -93,3 +93,5 @@ tomori_blocks_savedplayer			|	Enable or disable saved player chat announce block
 tomori_autojoin_enabled				|	Enable or disable AutoJoin Module (0 - Disable, 1 - Enabled)
 tomori_autojoin_mode				|	AutJoin Mode (0 - Given Team with ConVar, 1 - AutoAssign)
 tomori_autojoin_team				|	Team to join automatically (1 - Spectator, 2 - Terrorist, 3 - Counter-Terrorist)
+
+tomori_nodisarm_enabled				|	Enable or disable disarm on fists hit for players. (0 - Turn on Disarm, 1 - Turn off Disarm)

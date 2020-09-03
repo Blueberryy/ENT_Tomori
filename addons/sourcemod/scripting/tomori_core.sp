@@ -25,7 +25,6 @@
 #include <tomori>
 #include <autoexecconfig>
 #include <multicolors>
-#include <chat-processor>
 #include <basecomm>
 #include <emitsoundany>
 #include <smlib>
@@ -37,7 +36,9 @@
 
 #undef REQUIRE_EXTENSIONS
 #undef REQUIRE_PLUGIN
+#include <chat-processor>
 #include <sourcebanspp>
+#include <ccprocessor>
 #include <sourcecomms>
 #include <ctban>
 #include <teambans>
@@ -48,7 +49,8 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define TOMORI_VERSION						"2.5b"
+#define TOMORI_NAME							"[CSGO] Tomori <3 – v2.6b"
+#define TOMORI_VERSION						"2.6b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1
@@ -65,6 +67,7 @@
 #define MODULE_LOGGING						1
 #define MODULE_EXTRACOMMANDS				1
 #define	MODULE_AUTOJOIN						1
+#define	MODULE_NODISARM						1
 
 ConVar gH_Cvar_Tomori_Enabled;
 ConVar gH_Cvar_Tomori_ChatPrefix;
@@ -149,11 +152,15 @@ char Replace_Special[128] = "§\'~\"+^!%/`=()¸.:;?,*<>_-@&#$[]{}|\\  ";
 	#include "modules/module_autojoin.sp"
 #endif
 
+#if (MODULE_NODISARM == 1)
+	#include "modules/module_nodisarm.sp"
+#endif
+
 public Plugin myinfo = 
 {
-	name = "[CSGO] Tomori <3", 
+	name = TOMORI_NAME, 
 	author = "Entity", 
-	description = "Tomori Management Bot from Entity", 
+	description = "Tomori Management Bot from Entity - Made with <3", 
 	version = TOMORI_VERSION
 };
 
@@ -224,17 +231,42 @@ public void OnPluginStart()
 	#if (MODULE_ANTISLAM == 1)
 	Antislam_OnPluginStart();
 	#endif
+	#if (MODULE_NODISARM == 1)
+	NoDisarm_OnPluginStart();
+	#endif
+	
+	HookEvent("round_start", Event_RoundStart);
 	
 	AddCommandListener(JoinTeamCmd, "jointeam");
 	
 	RequestIp();
 }
 
+public void OnPluginEnd()
+{
+	#if (MODULE_NODISARM == 1)
+	NoDisarm_OnPluginEnd();
+	#endif
+}
+
+public void Event_RoundStart(Event event, char[] name, bool dontBroadcast)
+{
+	#if (MODULE_AUTOJOIN == 1)
+	AutoJoin_Event_RoundStart(event, name, dontBroadcast);
+	#endif
+	#if (MODULE_EXTRACOMMANDS == 1)
+	ExtraCMD_Event_RoundStart(event, name, dontBroadcast);
+	#endif
+}
+
 public void OnCvarChange(ConVar cvar, char[] oldvalue, char[] newvalue)
 {
-	char buffer[128];
-	GetConVarString(gH_Cvar_Tomori_ChatPrefix, buffer, sizeof(buffer));
-	Format(gShadow_Tomori_ChatPrefix, sizeof(gShadow_Tomori_ChatPrefix), "%s{lightblue} ", buffer);
+	if (cvar == gH_Cvar_Tomori_ChatPrefix)
+	{
+		char buffer[128];
+		GetConVarString(gH_Cvar_Tomori_ChatPrefix, buffer, sizeof(buffer));
+		Format(gShadow_Tomori_ChatPrefix, sizeof(gShadow_Tomori_ChatPrefix), "%s{lightblue} ", buffer);
+	}
 }
 
 public Action JoinTeamCmd(int client, char[] command, int argc)

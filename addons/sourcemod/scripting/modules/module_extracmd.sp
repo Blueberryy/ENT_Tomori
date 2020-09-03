@@ -41,8 +41,6 @@ int g_iPlayerManager,
 	g_iDeathsOffset,
 	g_iHealthOffset;
 
-bool MyJB_Blocked[MAXPLAYERS+1] = false;
-
 public void ExtraCMD_OnPluginStart()
 {
 	AutoExecConfig_SetFile("Module_ExtraCMD", "Tomori");
@@ -112,7 +110,24 @@ public void ExtraCMD_OnPluginStart()
 			if (IsValidClient(idx))
 			{
 				SDKHook(idx, SDKHook_WeaponDrop, WeaponDrop);
+				SDKHook(idx, SDKHook_WeaponCanUse, WeaponPickup);
 			}
+		}
+	}
+}
+
+public void ExtraCMD_Event_RoundStart(Event event, char[] name, bool dontBroadcast)
+{
+	int client = GetClientOfUserId(event.GetInt("userid"));
+	
+	if (IsValidClient(client) && gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue)
+	{
+		for (int idx = 0; idx < 10; idx++)
+		{
+			if ((idx > 10) || !IsValidClient(client)) break;
+			
+			if (g_iDroppedEntity[client][idx] == 0)
+				g_iDroppedEntity[client][idx] = 0;
 		}
 	}
 }
@@ -122,7 +137,29 @@ public void ExtraCMD_OnClientPutInServer(int client)
 	if (IsValidClient(client) && gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue)
 	{
 		SDKHook(client, SDKHook_WeaponDrop, WeaponDrop);
+		SDKHook(client, SDKHook_WeaponCanUse, WeaponPickup);
 	}
+}
+
+public Action WeaponPickup(int client, int entity)
+{
+	if (IsValidClient(client) && gH_Cvar_Tomori_ExtraCMD_Enabled.BoolValue && gH_Cvar_Tomori_ExtraCMD_ClearWep.BoolValue)
+	{
+		if (Weapon_IsValid(entity))
+		{
+			for (int idx = 0; idx < 10; idx++)
+			{
+				if (idx > 10) break;
+				
+				if (g_iDroppedEntity[client][idx] == entity)
+				{
+					g_iDroppedEntity[client][idx] = 0;
+					break;
+				}
+			}
+		}
+	}
+	return Plugin_Continue;
 }
 
 public Action WeaponDrop(int client, int weapon)
@@ -134,12 +171,13 @@ public Action WeaponDrop(int client, int weapon)
 			bool HandledDrop = false;
 			for (int idx = 0; idx < 10; idx++)
 			{
-				if (idx > 10) continue;
+				if (idx > 10) break;
 				
 				if (!HandledDrop && g_iDroppedEntity[client][idx] == 0)
 				{
 					g_iDroppedEntity[client][idx] = weapon;
 					HandledDrop = true;
+					break;
 				}
 			}
 			
@@ -213,7 +251,7 @@ public void ExtraCMD_OnMapStart()
 	{
 		for (int idx = 0; idx < 10; idx++)
 		{
-			if ((idx > 10) || !IsValidClient(idx)) continue;
+			if ((idx > 10) || !IsValidClient(idx)) break;
 			
 			if (g_iDroppedEntity[client][idx] == 0)
 				g_iDroppedEntity[client][idx] = 0;
@@ -227,7 +265,7 @@ public void ExtraCMD_OnClientDisconnect(int client)
 	
 	for (int idx = 0; idx < 10; idx++)
 	{
-		if ((idx > 10) || !IsValidClient(idx)) continue;
+		if ((idx > 10) || !IsValidClient(idx)) break;
 		
 		if (g_iDroppedEntity[client][idx] == 0)
 			g_iDroppedEntity[client][idx] = 0;

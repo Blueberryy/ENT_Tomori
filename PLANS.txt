@@ -1,5 +1,3 @@
 	> Bandisconnected Entity version
 	> Rank by playtime
-	> Knockout blocker
-	> Fix Overall switch cvar
 	> Any idea what comes up

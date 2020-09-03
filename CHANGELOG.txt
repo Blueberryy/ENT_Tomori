@@ -1,3 +1,12 @@
+-- 2020. 09. 03.
+
+ > Added NoDisarm Module (Thanks to Phoenix)
+ > Added support for ccprocessor (but it's highly not recommended)
+ > Added WeaponClear Removal on PickUp
+ > Added WeaponClear Removal on RoundStart
+ > Optimized the code at some point
+ > Fixed AutoJoin with MyJailbreak
+
 -- 2020. 08. 28.
 
  > Added ConVar to change prefix,

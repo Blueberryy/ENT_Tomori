@@ -71,11 +71,7 @@ public Action AutoJoin_JoinTeamCmd(int client, char[] command, int argc)
 		
 		if (gShadow_MYJBBanFound)
 		{
-			if (MyJB_Blocked[client])
-			{
-				MyJB_Blocked[client] = false;
-				toteam = CS_TEAM_T;
-			}
+			toteam = CS_TEAM_T;
 		}
 	
 		if (IsPlayerAlive(client)) ForcePlayerSuicide(client);
@@ -83,11 +79,6 @@ public Action AutoJoin_JoinTeamCmd(int client, char[] command, int argc)
 		ChangeClientTeam(client, toteam);
 	}
 	return Plugin_Continue;
-}
-
-public Action MyJailbreak_OnJoinGuardQueue(int client)
-{
-	if (gShadow_MYJBBanFound) MyJB_Blocked[client] = true;
 }
 
 public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcast)
@@ -121,11 +112,7 @@ public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcas
 	
 	if (gShadow_MYJBBanFound)
 	{
-		if (MyJB_Blocked[client])
-		{
-			MyJB_Blocked[client] = false;
-			return;
-		}
+		return;
 	}
 	
 	ChangeClientTeam(client, Team);
@@ -136,7 +123,7 @@ public void Event_ConnectionComplete(Event event, char[] name, bool dontBroadcas
 	}
 }
 
-public void Event_RoundStart(Event event, char[] name, bool dontBroadcast)
+public void AutoJoin_Event_RoundStart(Event event, char[] name, bool dontBroadcast)
 {
 	if (GameRules_GetProp("m_bWarmupPeriod") != 1 && gH_Cvar_Tomori_AutoJoin_Enabled.BoolValue)
 	{

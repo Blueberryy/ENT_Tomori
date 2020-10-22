@@ -205,25 +205,12 @@ public void PerformCleanForClient(int client)
 	{
 		for (int idx = 0; idx < 10; idx++)
 		{
-			if (g_iDroppedEntity[client][idx] != 0)
+			int Entity = g_iDroppedEntity[client][idx];
+			if (Entity != 0)
 			{
-				int maxentities = GetMaxEntities();
-				for (int entidx = MAXPLAYERS; entidx <= maxentities; entidx++)
-				{
-					if (!Entity_IsValid(entidx) || !IsValidEdict(entidx) || !Weapon_IsValid(entidx))
-						continue;
-
-					if (HasEntProp(entidx, Prop_Data, "m_hOwnerEnity"))
-					{
-						if (GetEntPropEnt(entidx, Prop_Data, "m_hOwnerEnity") == -1)
-						{
-							if (g_iDroppedEntity[client][idx] == entidx)
-							{
-								RemoveEdict(entidx);
-							}
-						}
-					}
-				}
+				if (Entity_IsValid(Entity) && IsValidEdict(Entity) && Weapon_IsValid(Entity))
+					Entity_Kill(Entity);
+				
 				g_iDroppedEntity[client][idx] = 0;
 			}
 		}

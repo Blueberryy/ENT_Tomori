@@ -50,7 +50,7 @@ public void NoDisarm_OnPluginStart()
 		
 		if(NoDisarmMod == Address_Null)
 		{
-			SetFailState("Please re-install the GameData from the given package.");
+			PrintToServer("Please restart the server to make NoDisarm work again. Reload corrupt NoDisarm from working properly.");
 			return;
 		}
 		
@@ -80,5 +80,6 @@ public void NoDisarm_OnPluginEnd()
 	{
 		StoreToAddress(g_NoDisarmMod_Start, 0x80, NumberType_Int8);
 		StoreToAddress(g_NoDisarmMod_Start + view_as<Address>(1), g_NoDisarmModSave_Start, NumberType_Int32);
+		StoreToAddress(g_NoDisarmMod_End, 0x8B, NumberType_Int8);
 	}
 }

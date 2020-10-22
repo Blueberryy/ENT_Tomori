@@ -55,6 +55,20 @@ public void Tags_OnPluginStart()
 
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
+	
+	for (int idx = 1; idx <= MaxClients; idx++)
+	{
+		if (gH_Cvar_Tomori_Tags_Enabled.BoolValue)
+		{
+			if (IsValidClient(idx))
+			{
+				ResetClientID(idx);
+				
+				if (!IsClientInSteamList(idx))
+					GetUserTagByFlag(idx);
+			}
+		}
+	}
 }
 
 public void Tags_OnClientDisconnect(int client)

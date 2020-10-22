@@ -50,7 +50,7 @@
 #pragma newdecls required
 
 #define TOMORI_NAME							"[CSGO] Tomori <3 – v2.6b"
-#define TOMORI_VERSION						"2.7b"
+#define TOMORI_VERSION						"2.8b"
 
 #define	MODULE_NAME							1
 #define	MODULE_AI							1

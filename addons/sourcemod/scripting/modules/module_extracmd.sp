@@ -111,6 +111,14 @@ public void ExtraCMD_OnPluginStart()
 			{
 				SDKHook(idx, SDKHook_WeaponDrop, WeaponDrop);
 				SDKHook(idx, SDKHook_WeaponCanUse, WeaponPickup);
+				
+				for (int ent = 0; ent < 10; ent++)
+				{
+					if ((ent > 10) || !IsValidClient(ent)) break;
+					
+					if (g_iDroppedEntity[idx][ent] != 0)
+						g_iDroppedEntity[idx][ent] = 0;
+				}
 			}
 		}
 	}
@@ -126,7 +134,7 @@ public void ExtraCMD_Event_RoundStart(Event event, char[] name, bool dontBroadca
 		{
 			if ((idx > 10) || !IsValidClient(client)) break;
 			
-			if (g_iDroppedEntity[client][idx] == 0)
+			if (g_iDroppedEntity[client][idx] != 0)
 				g_iDroppedEntity[client][idx] = 0;
 		}
 	}
@@ -150,6 +158,7 @@ public Action WeaponPickup(int client, int entity)
 			for (int idx = 0; idx < 10; idx++)
 			{
 				if (idx > 10) break;
+				if (g_iDroppedEntity[client][idx] == 0) continue;
 				
 				if (g_iDroppedEntity[client][idx] == entity)
 				{
@@ -254,7 +263,7 @@ public void ExtraCMD_OnClientDisconnect(int client)
 	{
 		if ((idx > 10) || !IsValidClient(idx)) break;
 		
-		if (g_iDroppedEntity[client][idx] == 0)
+		if (g_iDroppedEntity[client][idx] != 0)
 			g_iDroppedEntity[client][idx] = 0;
 	}
 }

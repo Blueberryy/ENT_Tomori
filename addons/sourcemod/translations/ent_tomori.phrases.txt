@@ -247,11 +247,11 @@
 	}
 	"Tomori Admin InvalidTime"
 	{
-		"en"		"This length is invalid, because it contain lettes."
+		"en"		"This length is invalid, because it contain letters."
 	}
 	"Tomori Filters BlockAdvert"
 	{
-		"en"		"Plase do not advertise in this server."
+		"en"		"Please do not advertise in this server."
 	}
 	"Tomori Antislam Muted"
 	{
